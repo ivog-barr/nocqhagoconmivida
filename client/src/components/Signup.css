@@ -1,0 +1,19 @@
+.paperStyle{
+    padding: 30px 20px;
+    width: 300;
+    margin: 20px auto;
+}
+
+.headerStyle{
+    margin: 0;
+}
+
+.avatar-style{
+    background-color: green;
+}
+
+
+.labels{
+    color: red;
+    text-align: center;
+}
