@@ -7,16 +7,8 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Grid } from '@mui/material';
 
-const bull = (
-  <Box
-    component="span"
-    sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
-  >
-    •
-  </Box>
-);
 
-export default function BasicCard() {
+export default function BasicCard(props) {
   return (
     <div>
      
@@ -24,14 +16,14 @@ export default function BasicCard() {
      
      <CardContent>
        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-         Oferta
+         {props.usuario}
        </Typography>
        <Typography variant="h5" component="div">
-         Titulo de la oferta
+         {props.title}
        </Typography>
        <Typography sx={{ mb: 1.5 }} color="text.secondary">
          <br></br>
-         Descripcion de la oferta
+        {props.description}
        </Typography>
 
      </CardContent>

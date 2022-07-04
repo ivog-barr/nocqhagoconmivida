@@ -5,23 +5,20 @@ import {
     Typography,
     TextField,
     Button,
-    FormGroup,
-    FormControlLabel,
-    Checkbox,
   } from "@mui/material";
   import "./Signup.css";
   import * as yup from "yup";
   import { useFormik } from "formik";
   import axios from 'axios'
-  import { useEffect } from "react";
+  
   
   const CrearOferta = (props) => {
   
      
   
       const validationSchema = yup.object({
-          titulo:yup.string().required("El nombre es requerido"),
-          descripcion:yup.string().required("El apellido es requerido"),
+          titulo:yup.string().required("El titulo es requerido"),
+          descripcion:yup.string().required("La descripcion  es requerido"),
 
       })
     const formik = useFormik({
@@ -31,7 +28,10 @@ import {
 
       },
       onSubmit: (values) => {
-        console.log(values)
+        axios.post("http://localhost:3001/ofertas",values).then(()=>{
+            console.log("It worked :))")
+    
+         })
       },
       validationSchema : validationSchema
     });

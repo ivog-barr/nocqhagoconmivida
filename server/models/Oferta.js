@@ -10,7 +10,8 @@ module.exports = (sequelize, DataTypes) => {
       },
       id_usuario: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
+        defaultValue:"Usuario xd"
       },
       estado:{
           type:DataTypes.BOOLEAN,
