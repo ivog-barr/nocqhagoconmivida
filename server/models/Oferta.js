@@ -19,6 +19,14 @@ module.exports = (sequelize, DataTypes) => {
           defaultValue:true
       }
     });
+
+    Oferta.associate =(models) =>{
+      Oferta.hasMany(models.Comments,{
+        onDelete:"cascade"
+      });
+    }
+
+    
   
     return Oferta;
   };

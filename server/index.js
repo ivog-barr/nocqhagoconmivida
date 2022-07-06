@@ -9,8 +9,11 @@ app.use(cors());
 const ofertaRouter = require("./routes/Oferta");
 app.use('/ofertas',ofertaRouter);
 
-const signUpRouter = require('./routes/Signup');
-app.use('/signUp',signUpRouter)
+const signUpRouter = require('./routes/auth');
+app.use('/auth',signUpRouter)
+
+const commentsRouter = require('./routes/Comments');
+app.use('/comments',commentsRouter)
 
 conDB.sequelize.sync().then(()=>{
     app.listen(3001,()=>{
