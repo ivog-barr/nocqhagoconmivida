@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { Usuario } = require("../models");
 const bcrypt = require("bcrypt");
+const{sign} = require('jsonwebtoken')
 
 router.get("/", async (req, res, next) => {
   const listaUsuarios = await Usuario.findAll();
@@ -23,7 +24,7 @@ router.post("/", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-  const { nombre, apellido, correo, usuario, clave } = req.body;
+  const { usuario, clave } = req.body;
   const user = await Usuario.findOne({ where: { usuario: usuario } });
 
   if (!user) res.json({ error: "El usuario no existe!!!!!!" });
@@ -32,7 +33,10 @@ router.post("/login", async (req, res) => {
     if (!match){
       res.json({ error: "Combinacion usuario / contrasena incorrecta" });
     } else{
-      res.json("Felicidades te logeasteeeeeeeeeee")
+      
+      const accessToken = sign({usuario: user.usuario, id:user.id},"importantsecret")
+      res.json(accessToken)
+      console.log("usuario logeadi anasi")
 
     }
    

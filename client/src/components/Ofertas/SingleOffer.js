@@ -7,31 +7,40 @@ function SingleOffer() {
   let { id } = useParams();
 
   const [offerObject, setOfferObject] = useState({});
-  const [comments,setComments] = useState([]);
-  const [newComment, setNewComment] = useState("")
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState("");
 
   useEffect(() => {
     axios.get(`http://localhost:3001/ofertas/byId/${id}`).then((response) => {
       setOfferObject(response.data);
-      
     });
 
     axios.get(`http://localhost:3001/comments/${id}`).then((response) => {
-      setComments(response.data)
-      
-      
+      setComments(response.data);
     });
   }, []);
 
-  const addComment =()=>{
-    axios.post("http://localhost:3001/comments",{commentBody:newComment, OfertumId:id}).then(()=>{
-     const commentToAdd ={commentBody: newComment}
-     setComments([...comments,commentToAdd]);
-     setNewComment("")
-    })
-  }
+  const addComment = () => {
+    axios
+      .post(
+        "http://localhost:3001/comments",
+        { commentBody: newComment, OfertumId: id },
+        { headers: { accessToken: sessionStorage.getItem("accessToken") }}
+      )
+      .then((response) => {
+        if(response.data.error){
+          console.log(response.data.error)
+        }
+        else{
+          const commentToAdd = { commentBody: newComment, usuario: response.data.usuario };
+        setComments([...comments, commentToAdd]);
+        setNewComment("");
 
-  
+        }
+        
+      });
+  };
+
   return (
     <div>
       <Grid container>
@@ -52,16 +61,24 @@ function SingleOffer() {
             Seccion de comentarios
           </Typography>
           <div className="">
-            <input type="text" placeholder="comment.." onChange={(e)=>{setNewComment(e.target.value)}} value={newComment}/>
+            <input
+              type="text"
+              placeholder="comment.."
+              onChange={(e) => {
+                setNewComment(e.target.value);
+              }}
+              value={newComment}
+            />
             <button onClick={addComment}>Comment</button>
           </div>
           <div className="">
-            {comments.map((comment,key)=>{
-              return(
+            {comments.map((comment, key) => {
+              return (
                 <div key={key} className="comment">
-                  {comment.commentBody}
+                  <h3>{comment.usuario}</h3>
+                  <p>{comment.commentBody}</p>
                 </div>
-              )
+              );
             })}
           </div>
         </Grid>

@@ -20,12 +20,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    fechaNac: {
-      type: DataTypes.STRING,
-      allowNull: true,
-      defaultValue: "24 de abril anasi"
-    },
   });
+
+ 
 
   return Usuario
 };

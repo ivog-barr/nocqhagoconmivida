@@ -1,61 +1,100 @@
-import React from "react";
-import { Avatar, Checkbox, FormControlLabel, FormGroup, Grid, Paper, TextField,Button, Typography, Link } from "@mui/material";
+import React, { useState } from "react";
+import {
+  Avatar,
+  Grid,
+  Paper,
+  TextField,
+  Button,
+  Typography,
+  Link,
+} from "@mui/material";
 
+import axios from "axios";
 
-import "./Login.css"
+import "./Login.css";
+import { useNavigate } from "react-router-dom";
+
 
 const Login = (props) => {
- 
+ const [ usuario, setUsername] =  useState("")
+ const [ clave, setPassword] =  useState("")
 
+ let navigate = useNavigate()
+
+
+ const login = ()=>{
+  const data = {usuario:usuario, clave:clave}
+  axios.post("http://localhost:3001/auth/login",data).then((response)=>{
+    if(response.data.error){
+      alert(response.data.error)
+    }
+    else{
+      sessionStorage.setItem("accessToken",response.data)
+      navigate('/ofertas')
+    }
+  })
+
+ }
+ 
   return (
     <Grid>
       <Paper elevation={10} className="paperStyle">
         <Grid align="center">
-          <Avatar className="avatarStyle">
-            
-          </Avatar>
+          <Avatar className="avatarStyle"></Avatar>
           <h2>Iniciar Sesion</h2>
         </Grid>
 
-        <form action="#">
-        <TextField
-          
-          label="Filled"
-          variant="filled"
-          placeholder="Enter Username"
-          fullWidth
-          required={true}
-          
-        />
-
-        <TextField
+        <form action="#" >
+          <TextField
          
-          label="Filled"
-          variant="filled"
-          placeholder="Enter Password"
-          fullWidth
-          required={true}
-          type="password"
-          
-        />
+            label="Usuario"
+            variant="filled"
+            placeholder="Enter Username"
+            fullWidth
+            required={true}
+            onChange={(event)=>{ setUsername(event.target.value)}}
+            
+          />
 
-        <FormGroup>
-            <FormControlLabel control={<Checkbox defaultChecked />} label="Remember Me" />
-        </FormGroup>
+          <TextField
+         
+            label="Password"
+            variant="filled"
+            placeholder="Enter Password"
+            fullWidth
+            required={true}
+            type="password"
+            onChange={(event)=>{ setPassword(event.target.value)}}
+           
+          />
 
-        <Button className="btn-style" type="submit" color="primary" fullWidth variant="contained"  >Sign in</Button>
+        
 
-        <Typography component={"span"}>
-            <Link href="#" >Registrate!</Link>
-        </Typography>
+          <Button
+          onClick={login}
+            className="btn-style"
+            type="submit"
+            color="primary"
+            fullWidth
+            variant="contained"
+          >
+            Sign in
+          </Button>
 
-        <Typography component={"span"}>
-            <Link href="#" >¿Olvidaste tu contraseña?</Link>
-        </Typography>
-          
+          <div className="footer-signup">
+
+          <Typography component={"span"}>
+            <Link href="#">Registrate!</Link>
+          </Typography>
+
+          <Typography component={"span"}>
+            <Link href="#">¿Olvidaste tu contraseña?</Link>
+          </Typography>
+          </div>
+
+
+        
         </form>
-
- 
       </Paper>
     </Grid>
   );
